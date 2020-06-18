@@ -6,7 +6,6 @@ to make it easier for correctness cheking
 """
 
 
-persian_letters = 'ابپتثجچحخدذرزژسشصضعغطظفقکگلمنوهی'
 
 def WordMaker(level, letters):
     regular_words = letters.copy()
