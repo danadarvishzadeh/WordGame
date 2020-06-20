@@ -1,5 +1,6 @@
 import re
 
+
 """
 this script will clean the first hand produced words 
 to make it easier for correctness cheking
@@ -36,4 +37,3 @@ def WordDump(_name, words):
     with open(name, 'w') as fout:
         for i in words:
             fout.write('{}, '.format(i))
-

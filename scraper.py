@@ -1,9 +1,11 @@
 import re
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+
 import requests
 from bs4 import BeautifulSoup
-from concurrent.futures import as_completed, ThreadPoolExecutor
-import threading
 from requests_futures.sessions import FuturesSession
+
 """
 this script will check each word's correctness
 from an online dictionary
