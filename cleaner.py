@@ -12,7 +12,7 @@ def WordMaker(level, letters):
     regular_words = letters.copy()
     special_words = ['کک', 'شش', 'سس', 'تتر', 'تتو']
     new_words = []
-    count = 0
+    count = 1
     while count != level:
         for i in regular_words:
             for j in letters:

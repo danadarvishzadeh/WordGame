@@ -6,14 +6,13 @@ import requests
 from bs4 import BeautifulSoup
 from requests_futures.sessions import FuturesSession
 
+from cleaner import *
+
 """
 this script will check each word's correctness
 from an online dictionary
 """
 
-inputs = input().strip().split(' ')
-
-word_list = WordMaker(len(inputs), inputs)
 
 answers = []
 
@@ -36,17 +35,11 @@ def Vajeh_Check(response, word):
         pass
 
     
-start = datetime.datetime.now()
+def Check(word_list):
+    with FuturesSession(max_workers=2) as session:
+        futures = [session.get('http://www.vajehyab.com/?q=' + word + '&f=dehkhoda')
+                for word in word_list]
 
-with FuturesSession(max_workers=2) as session:
-    futures = [session.get('http://www.vajehyab.com/?q=' + word + '&f=dehkhoda')
-              for word in word_list]
-    prints = 0
-    for future, word in zip(as_completed(futures), word_list):
-        response = future.result()
-        Vajeh_Check(response, word)
-        prints += 1
-    print(len(word_list), prints)
-        
-end = datetime.datetime.now()
-print(end-start)
+        for future, word in zip(as_completed(futures), word_list):
+            response = future.result()
+            Vajeh_Check(response, word)
