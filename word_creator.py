@@ -18,6 +18,10 @@ def WordMaker(level, letters):
             for j in letters:
                 if i == j:
                     continue
+                if i[-1] == 'ا' and j == 'ا':
+                    continue
+                if i[-1] == 'و' and j == 'و':
+                    continue
                 if len(i) > 3:
                     if re.findall(r"[^اوی]{4}", i+j):
                         continue
