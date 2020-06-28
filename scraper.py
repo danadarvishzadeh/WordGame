@@ -1,4 +1,4 @@
-import re
+import re, sys
 import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -15,8 +15,12 @@ from an online dictionary
 
 
 answers = []
-
+status_flag = False
 append_lock = threading.Lock()
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:76.0) Gecko/20100101 Firefox/76.0'
+}
 
 # lock the append function
 def Appender(val, target):
@@ -34,6 +38,7 @@ def Vajeh_Check(response, word):
     if check_result:
         if check_result.text.strip() == 'جست‌وجوی دقیق':
             Appender(word, answers)
+            print('++++++')
         else:
             pass
     else:
@@ -42,11 +47,29 @@ def Vajeh_Check(response, word):
 
 # making futures and running them by the rate of two
 def Word_Check(word_list):
-    status_flag = False
-    with FuturesSession(max_workers=2) as session:
-        futures = [session.get('http://www.vajehyab.com/?q=' + word + '&f=dehkhoda')
+    with FuturesSession(max_workers=2, ) as session:
+        futures = [session.request('http://www.vajehyab.com/?q=' + word + '&f=dehkhoda', headers=headers)
                 for word in word_list]
 
         for future, word in zip(as_completed(futures), word_list):
             response = future.result()
             Vajeh_Check(response, word)
+
+
+
+def main():
+    address = sys.argv[-1]
+    with open(address, 'r') as f:
+        f = f.read().strip().split(',')
+        word_list = f[:-1].copy()
+        word_count = int(f[-1])
+    Word_Check(word_list)
+    print('doneeeee!')
+    address = address.split('.')[0]
+    WordDump(address, answers)
+    print(status_flag)
+
+
+
+if __name__ == '__main__':
+    main()
