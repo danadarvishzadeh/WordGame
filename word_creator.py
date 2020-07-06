@@ -45,14 +45,6 @@ def WordMaker(length, letters):
         new_words.clear()
         counter += 1
     regular_words += special_words
-    WordDump(length, regular_words) 
+    return regular_words
 
 
-
-def main():
-    level = int(input())
-    letters = input().split(' ')
-    WordMaker(level, letters)
-
-if __name__ == '__main__':
-    main()
