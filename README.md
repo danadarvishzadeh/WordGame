@@ -1,2 +1,2 @@
 # WordGame
-a way to find correct answers to a telegram persian word games
+a bot for finding answers to a telegram persian words game
